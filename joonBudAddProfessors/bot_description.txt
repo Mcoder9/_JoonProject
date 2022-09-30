@@ -1,0 +1,29 @@
+Note: Credentials will be given to you in chat.
+
+Bot will be logging into http://joonbud.com/
+The user credentials should be configurable as maybe I need to change user in the future. But we will be only using one user for this bot.
+
+Then it will be going to a URL that is set in the config http://joonbud.com/professors/categories/saddleback-college.2/add
+In other words, I will be able to change this url in the script before running it.
+
+On this page:
+1) It will click and choose the prefix first. It should only have one option for prefix.
+2) It will copy the first column from the csv file and paste it into "title" which is next to the prefix.
+3) It will copy the second column from the csv file and paste it into the "class" input row.
+4) We will put a "-" (without quotes) in the "description" input textbox.
+5) Then it will click save button.
+
+Important:
+We need to have a log of used "titles" where it will keep the bot from creating duplicate titles. SO if we already created a class with the title "Arnold McMahon LOGIC1" that we got from the csv file, it will not create another "Arnold McMahon LOGIC1" but it could create a "Arnold McMahon ECON101." Basically as long as it doesn't match the full title.
+
+I will be running this script multiple times since the cvs file will be updated every now and then, and it will help to not have duplicates made when I rerun the bot.
+
+
+
+"Bot will be logging into http://joonbud.com/ (this url is also configurable)."
+
+forgot to note that in the txt file
+
+username: mustafadev
+
+pass : mustafadevupwork
