@@ -1,6 +1,5 @@
 import requests,json,csv
 from  bs4 import BeautifulSoup
-import httpx
 s = requests.Session()
 
 def get_xfToken(url):
@@ -56,6 +55,7 @@ def QuerySearch(query):
     queryResults = soup.select('td[class="dataList-cell dataList-cell--link"]>a')
     for tag in queryResults:
         if query == tag.text:
+            print(f'Query:: {query}')
             return tag['href']
 
 def readTrackLog():
