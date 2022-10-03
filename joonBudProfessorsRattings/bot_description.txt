@@ -1,0 +1,37 @@
+Review Bot
+Bots will be logging into http://joonbud.com/ (this url is also configurable).
+There will be config file of bots' login credentials.
+
+
+
+We will have one bot log in.
+This bot will then search for the professor (full value; example: Ruth Wrightsman BIO1C
+) on this page: http://joonbud.com/professors/categories/saddleback-college.2/ (this url will be configurable).
+
+
+
+After finding the professor with right class, it will click on it and then it will take you to a page like this: http://joonbud.com/professors/reyes-hist.16/
+
+
+
+We have to check for review duplicates first by going to this url slug http://joonbud.com/professors/reyes-hist.16/reviews (Note: If the professor does not have reviews, that url slug will just redirect the bot to this page http://joonbud.com/professors/reyes-hist.16/.)
+
+
+
+On this reviews page, it will check for duplicates by checking the "review comment." This can be done by the script keeping track of already used review comments in a log file.
+***IMPORTANT*** This review page may have pagination if it has too many reviews. You can see an example here: http://icecream.me/uploads/287b3b755c295c112636e60d5a445206.png
+The live url of this site to grab the pagination button class can be taken from here: https://xenforo.com/community/resources/s9e-media-sites.5973/reviews
+This url is a different site but it uses the same software and same css class "pageNav-jump pageNav-jump--next" for the pagination button.
+
+
+
+Now it will go back to this url: http://joonbud.com/professors/reyes-hist.16/
+After it screens for duplicates, and if there is no duplicate, then the user will leave a review in the class by click on the "Leave a rating" button or by going to this url slug: http://joonbud.com/professors/reyes-hist16.15/rate
+
+
+
+After leaving the review, it will log out and then login with new user and use the next row in the csv file.
+
+username: mustafadev
+
+pass : mustafadevupwork
