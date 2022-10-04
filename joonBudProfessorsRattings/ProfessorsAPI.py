@@ -1,6 +1,5 @@
 import requests,json,csv
 from  bs4 import BeautifulSoup
-import httpx
 s = requests.Session()
 
 def get_xfToken(url):
@@ -26,10 +25,11 @@ def postReview(professorURI,comment,rattings):
         print(f'{rattings} start ratting posted --> statusCode {rateResp.status_code}')
         print(f'Posted:: {comment[:30]}....')
 
-def login(student_id,student_pass):                 
+def login(student_id,student_pass):
+    xfToken = get_xfToken('http://joonbud.com/login/login')  
     loginUrl = 'http://joonbud.com/login/login'
     payload = {
-        '_xfToken':'1664711433,06f3d7f969a7ae7a1a21404b3d44d070',
+        '_xfToken':xfToken,
         'login':student_id,
         'password':student_pass,
         'remember':1,
