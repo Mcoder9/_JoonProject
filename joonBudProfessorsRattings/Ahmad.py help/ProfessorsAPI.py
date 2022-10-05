@@ -1,6 +1,15 @@
 import requests,json,csv,re
 from  bs4 import BeautifulSoup
 s = requests.Session()
+
+
+config = json.load(open('config.json'))
+addUrl = config['addUrl']
+loginUrl = config['loginUrl']
+
+
+
+
 base_headers = {
     'Accept': 'text/html, */*; q=0.01',
     'Accept-Language': 'en-US,en;q=0.9',
@@ -21,16 +30,15 @@ def get_xfToken(url):
 def postReview(professorURI,comment,rattings):
     professorRateURL = 'http://joonbud.com' +professorURI+ 'rate'
     _xfToken = get_xfToken(professorRateURL)
-    data = f'------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="_xfToken"\r\n\r\n{_xfToken}\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="rating"\r\n\r\n{rattings}\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="message"\r\n\r\n{comment}\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="custom_fields[strategy]"\r\n\r\n\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="custom_fields[quality]"\r\n\r\n\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="custom_fields[time]"\r\n\r\n\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="custom_fields[difficulty]"\r\n\r\n\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="custom_fields[yourgrade]"\r\n\r\na\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="custom_fields[availability]"\r\n\r\n\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="custom_fields[cost]"\r\n\r\n\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="custom_fields[attendance]"\r\n\r\n\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="_xfRequestUri"\r\n\r\n/professors/freshwater-eng.1874/\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="_xfWithData"\r\n\r\n1\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="_xfToken"\r\n\r\n{_xfToken}\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="_xfResponseType"\r\n\r\njson\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5--\r\n'
+    data = f'------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="_xfToken"\r\n\r\n{_xfToken}\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="rating"\r\n\r\n{rattings}\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="message"\r\n\r\n{comment}\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="custom_fields[strategy]"\r\n\r\n\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="custom_fields[quality]"\r\n\r\n\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="custom_fields[time]"\r\n\r\n\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="custom_fields[difficulty]"\r\n\r\n\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="custom_fields[yourgrade]"\r\n\r\n\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="custom_fields[availability]"\r\n\r\n\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="custom_fields[cost]"\r\n\r\n\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="custom_fields[attendance]"\r\n\r\n\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="_xfRequestUri"\r\n\r\n/professors/freshwater-eng.1874/\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="_xfWithData"\r\n\r\n1\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="_xfToken"\r\n\r\n{_xfToken}\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5\r\nContent-Disposition: form-data; name="_xfResponseType"\r\n\r\njson\r\n------WebKitFormBoundaryjUm6cjNJC9eqRev5--\r\n'
     s.headers.update({'Referer':'http://joonbud.com'+professorURI,'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryjUm6cjNJC9eqRev5','X-Requested-With': 'XMLHttpRequest',})
     rateResp = s.post(professorRateURL,data=data) # post comment/Reviews
     if rateResp.status_code == 200:
-        print(f'{rattings} start ratting posted --> statusCode {rateResp.status_code}')
-        print(f'Posted:: {comment[:30]}....')
+        print(f'Rattings:: {rattings} start ratting posted --> statusCode {rateResp.status_code}')
+        print(f'Comment:: {comment[:30]}....')
 
 def login(student_id,student_pass):
-    xfToken = get_xfToken('http://joonbud.com/login/login')  
-    loginUrl = 'http://joonbud.com/login/login'
+    xfToken = get_xfToken(loginUrl)
     payload = {
         '_xfToken':xfToken,
         'login':student_id,
@@ -50,11 +58,11 @@ def login(student_id,student_pass):
         s.cookies.update(cookies)
 
 def QuerySearch(query):
-    xfToken = get_xfToken('http://joonbud.com/professors/categories/saddleback-college.2/')
+    xfToken = get_xfToken(addUrl) #'http://joonbud.com/professors/categories/saddleback-college.2/'
     data = {'title':query,'_xfToken':xfToken}
-    s.headers.update({'Referer': 'http://joonbud.com/professors/categories/saddleback-college.2/','Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8','X-Requested-With': 'XMLHttpRequest',})
-    quickSearch = s.post('http://joonbud.com/resources/categories/quicksearch?category_id=2',data=data)
-    print(f'QuerySearch statusCode is {quickSearch.status_code}')
+    s.headers.update({'Referer': addUrl,'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8','X-Requested-With': 'XMLHttpRequest',})
+    quickSearch = s.post(addUrl,data=data)
+    print(f'QuerySearch:: {query} statusCode is {quickSearch.status_code}')
     soup = BeautifulSoup(quickSearch.text,'lxml')
     queryResults = soup.select('td[class="dataList-cell dataList-cell--link"]>a')
     for tag in queryResults:
