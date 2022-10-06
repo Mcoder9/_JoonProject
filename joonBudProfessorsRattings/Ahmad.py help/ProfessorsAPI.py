@@ -6,6 +6,9 @@ s = requests.Session()
 config = json.load(open('config.json'))
 addUrl = config['addUrl']
 loginUrl = config['loginUrl']
+queryUrl = config['queryUrl']
+queryPostUrl = config['queryPostUrl']
+
 
 
 
@@ -58,10 +61,10 @@ def login(student_id,student_pass):
         s.cookies.update(cookies)
 
 def QuerySearch(query):
-    xfToken = get_xfToken(addUrl) #'http://joonbud.com/professors/categories/saddleback-college.2/'
+    xfToken = get_xfToken(queryUrl) #'http://joonbud.com/professors/categories/saddleback-college.2/'
     data = {'title':query,'_xfToken':xfToken}
-    s.headers.update({'Referer': addUrl,'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8','X-Requested-With': 'XMLHttpRequest',})
-    quickSearch = s.post(addUrl,data=data)
+    s.headers.update({'Referer': queryUrl,'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8','X-Requested-With': 'XMLHttpRequest',})
+    quickSearch = s.post(queryPostUrl ,data=data)
     print(f'QuerySearch:: {query} statusCode is {quickSearch.status_code}')
     soup = BeautifulSoup(quickSearch.text,'lxml')
     queryResults = soup.select('td[class="dataList-cell dataList-cell--link"]>a')
@@ -85,6 +88,7 @@ def readRattingsInput(showSkip=False):
             return row
         else:
             if showSkip: print(f'Skipped:: {comment[:30]}....')
+    return None # retrun None if there is no any comment for next review OR all comments are used.
 
 def runRattingBot():
     global s
@@ -95,24 +99,29 @@ def runRattingBot():
             student_id = line.strip().split(':')[0]
             student_pass = line.strip().split(':')[1]
             row = readRattingsInput()
-            query = row['Teacher Name']
-            rattings = int(row['Rating'])
-            comment = row['Comment']
-                
-            login(student_id,student_pass)
-            professorURI = QuerySearch(query)
-            if professorURI:
-                  
-                postReview(professorURI,comment,rattings)
-                updateTrackLogger(comment)
+            if row: # Check if row found for next comment.
+                query = row['Teacher Name']
+                rattings = int(row['Rating'])
+                comment = row['Comment']
+                    
+                login(student_id,student_pass)
+                professorURI = QuerySearch(query)
+                if professorURI:
+                    
+                    postReview(professorURI,comment,rattings)
+                    updateTrackLogger(comment)
+                else:
+                    print('Professor URI not found')
             else:
-                print('Professor URI not found')
+                print('All comments are used'.center(40,'-'))
+                print('Note'.center(40,'-'))
+                print('Last User is ----> ',student_id)
+                break
+        print('Finished processing ...')
 
 
-# print(login("mutest2","mustafadevupwork"))
+
 readRattingsInput(showSkip=True) # print skipped comment on terminal.
 runRattingBot()
 
-
-# print(get_xfToken('http://joonbud.com/login/login') )
 

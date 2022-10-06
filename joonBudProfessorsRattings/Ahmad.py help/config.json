@@ -1,4 +1,6 @@
 {
     "loginUrl": "http://joonbud.com/login/login",
-    "addUrl" : "http://joonbud.com/professors/categories/saddleback-college.2/add"
+    "addUrl" : "http://joonbud.com/professors/categories/saddleback-college.2/add",
+    "queryUrl" : "http://joonbud.com/professors/categories/saddleback-college.2/",
+    "queryPostUrl" : "http://joonbud.com/resources/categories/quicksearch?category_id=2"
 }
