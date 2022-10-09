@@ -1,6 +1,7 @@
 {
-    "loginUrl": "http://joonbud.com/login/login",
-    "addUrl" : "http://joonbud.com/professors/categories/saddleback-college.2/add",
-    "queryUrl" : "http://joonbud.com/professors/categories/saddleback-college.2/",
-    "queryPostUrl" : "http://joonbud.com/resources/categories/quicksearch?category_id=2"
-}
+    "loginUrl":"http://joonbud.com/login/login",
+    "addUrl":"http://joonbud.com/professors/categories/saddletest.8/add",
+    "queryUrl":"http://joonbud.com/professors/categories/saddletest.8/",
+    "queryPostUrl":"http://joonbud.com/resources/categories/quicksearch?category_id=8",
+    "threads" : 10
+ }
